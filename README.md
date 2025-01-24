@@ -185,6 +185,7 @@ Build and start both services with one command:
 ```bash
 docker-compose up --build
 ```
+![image](https://github.com/user-attachments/assets/a9413f9a-a801-4024-86e0-655ff6db5fbb)
 
 ---
 
