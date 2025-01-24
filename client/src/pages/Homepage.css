@@ -1,0 +1,89 @@
+/* Global black and white theme */
+body, .home-page {
+    background-color: #333;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    background-image: url('https://www.example.com/your-background-image.jpg'); /* Replace with your background image URL */
+    background-size: cover;
+    background-position: center;
+  }
+  
+  /* Title styling */
+  .title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 2rem 0;
+    color: #fff;
+  }
+  
+  /* Card custom styles */
+  .custom-card {
+    background-color: #222;
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .custom-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  .card-body {
+    color: #ddd;
+  }
+  
+  .card-title {
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+  
+  .card-text {
+    color: #ccc;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+  }
+  
+  /* Fade-in animation for the page */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .home-page {
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  /* Card image styles */
+  .card-img-top {
+    height: 200px;
+    object-fit: cover;
+    filter: grayscale(100%);
+  }
+  
+  /* Ensuring that the buttons and text have enough contrast for accessibility */
+  .btn-primary, .card-title, .card-text {
+    transition: color 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    color: white;
+  }
+  
+  .card-title:hover, .card-text:hover {
+    color: #ddd;
+  }
+  

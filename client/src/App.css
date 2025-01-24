@@ -1,0 +1,245 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.content-container {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+  overflow: auto;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+/* heloo */
+.content-container {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.title {
+  font-size: 2.5rem; /* Adjust size as needed */
+  font-family: 'Roboto', sans-serif; /* Choose a stylish font */
+  font-weight: bold;
+  color: #f2aa4c;
+  margin-bottom: 20px;
+  padding: 20px;
+  justify-content: center;
+  align-items: center;
+
+
+
+  /* font-family: 'Roboto', sans-serif;
+    font-size: 2.5rem;
+    color: #343a40;
+    margin-bottom: 20px; */
+}
+
+
+
+.background-container {
+
+  flex-direction: column;
+
+  animation: colorChange 10s infinite;
+}
+
+@keyframes colorChange {
+  0% {
+      background-color: #000000; /* Tomato */
+  }
+  25% {
+      background-color: #000000; /* Turquoise */
+  }
+  50% {
+      background-color: #000000; /* Hot Pink */
+  }
+  75% {
+      background-color: #000000; /* Medium Orchid */
+  }
+  100% {
+      background-color: #000000; /* Dodger Blue */
+  }
+}
+
+.text{
+  color:#fafafa;
+}
+
+.footer {
+  background-color: #776f00; /* Dark background color */
+  color: #ffffff; /* Light text color */
+  text-align: center;
+  padding: 20px 0;
+  border-top: 1px solid #ffffff; /* Optional: add a border for separation */
+}
+
+.footer .container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.footer .text {
+  color: #ffffff; /* Slightly lighter text color */
+}
+
+.navbar-custom {
+  background-color: #f2aa4c; /* Change to your desired color */
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+  color: #030303; /* Light color for text */
+}
+
+.navbar-custom .nav-link:hover {
+  color: #e0e0e0; /* Lighter color for hover effect */
+}
+
+/* form */
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  transition: border-color 0.3s ease;
+}
+
+/* for cards */
+
+
+.card {
+  border-radius: 10px;
+  overflow: hidden; /* Ensures the image does not overflow the card */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  margin: 30px;
+ 
+
+}
+ 
+ 
+    
+
+.card-img-top {
+  width: 100%; /* Ensures the image fills the width of the card */
+  height: 200px; /* Fixed height for all images */
+  object-fit: cover; /* Ensures images cover the area without distortion */
+}
+
+.card-body {
+  flex: 1; /* Ensures the body takes up remaining space */
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  
+
+}
+
+.card-title {
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+}
+
+.card-text {
+  flex: 1; /* Ensures the text takes up the remaining space */
+  font-size: 0.875rem;
+  color: #555;
+  margin-bottom: 15px; /* Adds space before the button */
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary {
+  align-self: flex-start; /* Aligns the button to the start of the card body */
+  background-color: #007bff;
+  border-color: #007bff;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #004080;
+}
+
+
+/* buttons */
+.bgcon{
+  background-color: #f2aa4c;
+}
+
+.shahin{
+  color: #e0e0e0;
+}
+
+.img-fluid {
+  border-radius: 5%;
+  height: 60%;
+
+}
+.con-cont {
+  color: #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+  overflow: auto;
+}
+
