@@ -64,6 +64,7 @@ Blog-Application/
 │   └── Dockerfile          # Dockerfile for the server
 ├── docker-compose.yml      # Docker Compose configuration
 └── README.md               # Project documentation
+
 ```
 
 ---
@@ -170,6 +171,10 @@ CMD ["node", "server.js"]
   docker build -t blog-app-server ./server
   ```
 
+![image](https://github.com/user-attachments/assets/ddf86b60-e3b7-456d-bebf-4ff1f7b50537)
+
+
+
 #### Step 2: Run Docker Containers
 - **Client**:
   ```bash
@@ -179,6 +184,45 @@ CMD ["node", "server.js"]
   ```bash
   docker run -p 5000:5000 blog-app-server
   ```
+![image](https://github.com/user-attachments/assets/97ab86f6-ab2f-406f-b071-6a37cda2eba2)
+
+
+
+  
+With Docker
+Step 1: Create a docker-compose.yml File
+In the root folder of the project, create a file named docker-compose.yml with the following content:
+
+```
+version: '3.8'
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=<your_mongo_uri>
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+
+```
+![image](https://github.com/user-attachments/assets/845d4ee7-6636-436a-a125-1664f906aeb4)
+
+
+
 
 #### Step 3: Use Docker Compose
 Build and start both services with one command:
@@ -203,6 +247,10 @@ To monitor CPU and memory usage of your running containers:
    - **CPU %**: CPU usage percentage.
    - **MEMORY USAGE / LIMIT**: Memory usage and limit.
    - **MEMORY %**: Percentage of memory usage.
+
+![image](https://github.com/user-attachments/assets/48e39032-270f-406d-a60e-da6b06c0640d)
+
+
 
 ### View Logs of Containers
 1. Check logs for the **client** container:
