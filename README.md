@@ -1,6 +1,4 @@
 
-Here's the updated `README.md` with the requested changes:
-
 ---
 
 # Blog Application (MERN Stack)
