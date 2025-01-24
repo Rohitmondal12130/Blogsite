@@ -280,7 +280,4 @@ Once the Docker containers are up, access the application at:
 
 ---
 
-This updated README now includes a section for monitoring and viewing logs, ensuring it is more helpful for debugging and performance monitoring. Let me know if there's anything else you'd like to add! 🚀
-hehe
 =======
->>>>>>> e68f0d55f482a61533fa084eca56464a1c140338
