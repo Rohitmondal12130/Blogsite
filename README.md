@@ -281,3 +281,257 @@ Once the Docker containers are up, access the application at:
 ---
 
 =======
+
+
+# Terraform AWS Setup Guide
+
+## Overview
+
+This guide walks you through setting up an AWS EC2 instance and other resources using Terraform. The resources provisioned include:
+1. An EC2 instance.
+2. A security group allowing HTTP, HTTPS, and SSH traffic.
+3. Integration of Docker to deploy a sample application using `docker-compose`.
+
+## Prerequisites
+
+Before starting, ensure you have the following tools installed:
+
+1. **Terraform**: Download and install from [Terraform's official website](https://www.terraform.io/downloads).
+2. **AWS CLI**: Install and configure the AWS CLI from [AWS CLI official website](https://aws.amazon.com/cli/).
+3. **AWS Account**: Create an AWS account if you don’t have one.
+4. **Key Pair**: Generate an AWS Key Pair in the target region for SSH access to your EC2 instance.
+
+---
+
+## Project Structure
+
+```plaintext
+project-folder/
+├── main.tf        # Contains Terraform configuration for AWS resources
+├── variables.tf   # Input variables for the Terraform setup
+├── outputs.tf     # Outputs for displaying instance IP and other details
+├── docker-compose.yml # Docker Compose file for the app (stored in S3)
+└── README.md      # Documentation
+```
+
+---
+
+## Terraform Configuration
+
+### **1. `main.tf`**
+This file contains the Terraform code for provisioning resources.
+
+```hcl
+provider "aws" {
+  region = "eu-north-1"  # Replace with your desired AWS region
+}
+
+# Security Group to allow HTTP, HTTPS, and SSH traffic
+resource "aws_security_group" "blog_app_sg" {
+  name        = "blog-app-sg"
+  description = "Allow HTTP, HTTPS, and SSH traffic"
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "BlogAppSecurityGroup"
+  }
+}
+
+# EC2 Instance
+resource "aws_instance" "blog_app_instance" {
+  ami           = "ami-0c02fb55956c7d316"  # Amazon Linux 2 AMI for eu-north-1
+  instance_type = "t3.micro"
+  key_name      = "YourKeyPairName"        # Replace with your key pair name
+  security_groups = [aws_security_group.blog_app_sg.name]
+
+  tags = {
+    Name = "BlogAppInstance"
+  }
+
+  user_data = <<-EOF
+              #!/bin/bash
+              # Update the system and install Docker
+              yum update -y
+              yum install -y docker
+              service docker start
+              usermod -aG docker ec2-user
+
+              # Install AWS CLI v2
+              curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+              unzip awscliv2.zip
+              sudo ./aws/install
+
+              # Download docker-compose.yml from S3
+              aws s3 cp s3://your-bucket-name/docker-compose.yml /home/ec2-user/docker-compose.yml
+
+              # Start the application
+              cd /home/ec2-user
+              docker-compose up -d
+              EOF
+}
+
+# Output the EC2 instance's public IP
+output "instance_ip" {
+  value = aws_instance.blog_app_instance.public_ip
+}
+
+output "app_url" {
+  value = "http://${aws_instance.blog_app_instance.public_ip}:3000"
+}
+```
+
+---
+
+### **2. `variables.tf`**
+Define variables to make the Terraform script reusable.
+
+```hcl
+variable "region" {
+  default = "eu-north-1"
+}
+
+variable "key_pair_name" {
+  description = "Name of the AWS Key Pair"
+  type        = string
+}
+```
+
+---
+
+### **3. `outputs.tf`**
+Configure outputs to display important information after provisioning.
+
+```hcl
+output "instance_ip" {
+  description = "Public IP of the EC2 instance"
+  value       = aws_instance.blog_app_instance.public_ip
+}
+
+output "app_url" {
+  description = "Application URL"
+  value       = "http://${aws_instance.blog_app_instance.public_ip}:3000"
+}
+```
+
+---
+
+### **4. `docker-compose.yml`**
+Upload this file to an S3 bucket before running Terraform. It contains instructions to deploy your application using Docker Compose.
+
+```yaml
+version: '3.8'
+
+services:
+  app:
+    image: nginx:latest
+    ports:
+      - "3000:80"
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+```
+
+Upload to S3 using the AWS CLI:
+```bash
+aws s3 cp docker-compose.yml s3://your-bucket-name/
+```
+
+---
+
+## Steps to Deploy
+
+1. **Initialize Terraform**
+   Run the following command to initialize Terraform in your project directory:
+   ```bash
+   terraform init
+   ```
+
+2. **Validate Configuration**
+   Ensure that your Terraform configuration files are valid:
+   ```bash
+   terraform validate
+   ```
+
+3. **Plan the Infrastructure**
+   Generate and review an execution plan:
+   ```bash
+   terraform plan
+   ```
+
+4. **Apply the Configuration**
+   Apply the Terraform configuration to provision the resources:
+   ```bash
+   terraform apply
+   ```
+
+   Confirm the action when prompted by typing `yes`.
+
+5. **Check the Outputs**
+   Once the deployment is complete, Terraform will output the EC2 instance’s public IP and application URL:
+   ```bash
+   Apply complete! Resources: X added, 0 changed, 0 destroyed.
+
+   Outputs:
+   instance_ip = "X.X.X.X"
+   app_url = "http://X.X.X.X:3000"
+   ```
+
+---
+
+## Verifying the Setup
+
+1. Open your browser and visit the `app_url` output by Terraform to check if the application is running.
+2. SSH into the EC2 instance to troubleshoot or manage:
+   ```bash
+   ssh -i your-key.pem ec2-user@<instance_ip>
+   ```
+
+---
+
+## Cleaning Up
+
+To destroy the infrastructure and avoid incurring costs, use the following command:
+```bash
+terraform destroy
+```
+
+---
+
+## Common Issues
+
+1. **AMI Not Found**: Ensure you’re using the correct AMI ID for your region.
+2. **Port Already Allocated**: Stop any service using the port or update the `docker-compose.yml` file with a different port.
+3. **Access Denied**: Ensure your AWS credentials are properly configured and have the necessary permissions.
+
+---
+
