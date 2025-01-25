@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - app-network
+
+  server-1:
+    build: ./server
+    container_name: server-1
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+    environment:
+      MONGO_URI: mongodb://mongodb:27017/mydatabase
+    networks:
+      - app-network
+
+  client-1:
+    build: ./client
+    container_name: client-1
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_API_URL: http://server-1:5000
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongo_data:
