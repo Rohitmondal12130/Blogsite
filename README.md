@@ -3,7 +3,7 @@
 
 # Blog Application (MERN Stack)
 
-A comprehensive blog application built with the MERN stack (MongoDB, Express.js, React, Node.js). This project integrates Docker for containerized deployment and development, ensuring seamless setup and scalability.
+A comprehensive blog application built with MERN stack (MongoDB, Express.js, React, Node.js). This project integrates Docker for containerized deployment and development, ensuring seamless setup and scalability.
 
 > **Cloned Repository**: [Shahin2138's Blog Application](https://github.com/shahin2138/Blog-Application)
 
